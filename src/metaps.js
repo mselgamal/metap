@@ -1,39 +1,69 @@
-let request = require("../wsdl/requests.js");
+let Request = require("../api/SOAPRequest.js");
+let LineOperations = require("../api/LineOperations.js");
 let fs = require('fs');
 
-function etaps(option,name,ext,resultCB) {
-	request.setOptionsObj(option);
-	let fakeName, line;
-	request.getLine(ext).then((response)=>{
+function deviceListMenu(devices) {
+	let xml = xmlbuilder.create('CiscoIPPhoneMenu')
+		.ele("Title","Device List").up()
+		.ele("Prompt", "Please Select Correct Profile").up();
+	let url = "http://"+process.env.SERV_ADDR+":"+process.env.HTTP_PORT+
+	"/etaps/submit?device=";
+	devices.forEach((ele)=> {
+		xml.ele("MenuItem")
+			.ele("Name", ele).up()
+			.ele("URL", url+ele).up().up()
+	});
+	xml.up();
+	return xml;
+}
+
+function phoneTaps(name, pattern, resultCB) {
+	let fakeName, line, e164Pattern = pattern, lineOps = new LineOperations();
+	let httpOpts = {
+		host: process.env.SERV_ADDR, port: process.env.HTTP_PORT,
+		path: process.env.AXL_API_PATH, method: 'getLine',
+		headers: {
+			'Authorization': process.env.AUTH_HASH,
+			'Content-Type': 'text/xml; charset=utf-8',
+		},
+		rejectUnauthorized: false
+	};
+	if (process.env.E164_DN === 'true') {
+		e164Pattern = '+'+pattern
+	}
+	let body = lineOps.getLine(e164Pattern, process.env.DN_PT,
+		{associatedDevices:{}}).body;
+	let request = new Request(httpOpts, body);
+
+	request.sendRequest().then((response)=> {
 		let line = response.result["ns:getLineResponse"][0]["return"][0]["line"][0];
-		let devices = line.associatedDevices[0];
+		let devices = line.associatedDevices;
+
 		if (!devices) {
 			throw new Error("there is no profile associated with this extension");
 		}
-		console.log(devices);
-		let mac = devices.device.filter((phone) => {
-			console.log(phone);
-			return phone.includes(ext);
-		});
-		console.log(mac);
-		if (mac.length === 1) {
-			fakeName = mac[0];
-		} else {
-			throw new Error("no mac address found with correct format, available associated devices -> "
-			+ devices.device);
-		}
 
-		let prompt = "ETAPS Service";
-		let text = "starting ETAPS request...attempting to replace "+fakeName +" with "+name+", phone will reset soon.";
-		resultCB(etapsRes(prompt,text));
-		return name;
+		let filteredDev = devices.filter((macAddress)=> {
+			return macAddress.includes(pattern);
+		});
+		return devices
+	}).then(async (devices)=> {
+		if (devices.length === 1) {
+			fakeName = devices[0]
+		} else {
+			httpOpts.method = "getPhone";
+			device.forEach((device) => {
+				
+			});
+		}
 	}).catch((err)=>{
 		//console.log(err.message);
 		let prompt = "Encountered an error";
 		let text = err.message;
 		resultCB(etapsRes(prompt,text));
-		throw new Error(err.message);
-	}).then((response)=>{
+	});
+
+	/*then((response)=>{
 		return request.removePhone(name);
 	},(err)=>{
 		throw new Error(err.message);
@@ -43,15 +73,15 @@ function etaps(option,name,ext,resultCB) {
 		throw new Error(err.message);
 	}).catch((err)=>{
 		console.log(err.message);
-	});
+	});*/
+}
 
-	function etapsRes(prompt,text){
-		let xml = "<CiscoIPPhoneText><Title>meTaps</Title>";
-		xml += "<Prompt>"+prompt+"</Prompt>"+
-				"<Text>"+text+"</Text>"+
-				"</CiscoIPPhoneText>";
-		return xml;
-	}
+function etapsRes(prompt,text){
+	let xml = "<CiscoIPPhoneText><Title>meTaps</Title>";
+	xml += "<Prompt>"+prompt+"</Prompt>"+
+			"<Text>"+text+"</Text>"+
+			"</CiscoIPPhoneText>";
+	return xml;
 }
 
 module.exports.etaps = etaps;
