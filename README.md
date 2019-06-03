@@ -1,4 +1,4 @@
-# metaps 
+# metap 
 
 metaps stands for "me" + "tool for auto provisioning". 
 

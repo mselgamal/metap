@@ -1,0 +1,8 @@
+{
+	"@":{
+		"xmlns:soapenv":"http://schemas.xmlsoap.org/soap/envelope/",
+		"xmlns:ns":"http://www.cisco.com/AXL/API/10.5"
+	},
+	"soapenv:Body":{
+	}
+}

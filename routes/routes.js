@@ -1,19 +1,19 @@
 function routes(router,handler) {
 
-	router.route('/taps')
-		.get(handler.getTapsMenu);
+	router.route('/tap/menu')
+		.get(handler.getTapMenu);
 
-	router.route('/add/admin')
-		.get(handler.getAddAdminMenu);
+	router.route('/user/menu')
+		.get(handler.getUserMenu);
 
-	router.route('/add/admin/submit')
-		.post(handler.postAdminUser);
+	router.route('/add/user')
+		.post(handler.createUserHash);
 
-	router.route('/taps/device/submit')
+	router.route('/tap/phone/continue')
 		.get(handler.continueTap);
 
-	router.route('/taps/submit')
-		.get(handler.doTap);
+	router.route('/tap/phone/start')
+		.get(handler.doPhoneTap);
 }
 
 exports.routes = routes;

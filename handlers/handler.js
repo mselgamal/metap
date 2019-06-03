@@ -1,26 +1,37 @@
-let taps = require('../src/metaps');
+let tap = require('../src/metap.js');
 
-function getTapsMenu(req,res) {
+/*
+  req url -> http://server_addr:port/tap/menu/submit?name=sepdsdsad
+*/
+function getTapMenu(req,res) {
   res.type("text/xml");
-  let xml = "<CiscoIPPhoneInput><Title>Enter Extension</Title>"+
-        "<URL>http://"+process.env.SERV_ADDR+":"+process.env.HTTP_PORT+
-        "/etaps/submit?device="+req.query.device+"</URL>"+
-        "<InputItem>"+
-        "<DisplayName>Extension</DisplayName>"+
-        "<QueryStringParam>ext</QueryStringParam>"+
-        "<DefaultValue></DefaultValue>"+
-        "<InputFlags>N</InputFlags>"+
-        "</InputItem></CiscoIPPhoneInput>";
-  res.send(xml);
+  res.send(tap.tapMenu(req.query.name));
 }
 
-function doTaps(req,res) {
+function createUserHash(req,res) {
   //do taps
+  res.send("createAdminUserHash");
 }
 
-function getAddAdminMenu(req,res) {
+function doPhoneTap(req,res) {
+  res.type("text/xml");
+  tap.doPhoneTap(req.query.name, req.query.pattern, (result)=>{
+    console.log(result);
+    res.send(result);
+  })
+}
+
+function continueTap(req,res) {
+  res.send("continueTap");
+}
+
+function getUserMenu(req,res) {
   // respond with menu page to hash authentication info
+  res.send("getAddAdminMenu");
 }
 
-exports.getTapsMenu = getTapsMenu;
-exports.getTapsMenu = doTaps;
+exports.getTapMenu = getTapMenu;
+exports.doPhoneTap = doPhoneTap;
+exports.continueTap = continueTap;
+exports.getUserMenu = getUserMenu;
+exports.createUserHash = createUserHash;
