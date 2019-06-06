@@ -4,7 +4,7 @@ let enviroment = process.env.NODE_ENV,
 	parser = require('body-parser'),
   logger = require('morgan'),
   https = require('https'),
-  fs = require('fs');
+  prompt = require('prompt');
 
 global.App = {
 	started: false,
@@ -18,16 +18,30 @@ global.App = {
 	env: enviroment,
 	start: function() {
 		if (!this.started) {
-      this.started = true;
-      this.app.listen(this.httpPort,()=> {
-        console.log("Custom TAPS app, http port " + this.httpPort);
-      });
-      https.createServer({
-        key: fs.readFileSync(this.require('certs/server-key.pem')),
-        cert: fs.readFileSync(this.require('certs/server-crt.pem')),
-        ca: fs.readFileSync(this.require('certs/ca-crt.pem'))
-      }, this.app).listen(this.httpsPort, ()=> {
-        console.log("Custom TAPS app (limited urls), https port " + this.httpsPort);
+      let schema = {
+        properties: {
+          ["API User"]: {
+            pattern: /^[a-zA-Z\s\-]+$/,
+            message: 'Name must be only letters, spaces, or dashes',
+            required: true
+          },
+          ["Password"]: {
+            hidden: true
+          }
+        }
+      };
+      prompt.start();
+      prompt.get(schema, (err,result)=> {
+        if (err) {
+          console.log(err.message);
+          process.exit(1);
+        }
+        process.env.AUTH_HASH = 'Basic ' + Buffer
+        .from(result["API User"]+":"+result.Password).toString('base64');
+        this.started = true;
+        this.app.listen(this.httpPort,()=> {
+          console.log("Custom TAPS app, http port " + this.httpPort);
+        });
       });
 		} else {
 			console.log("TAPS app is already running");

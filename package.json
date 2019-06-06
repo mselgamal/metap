@@ -21,6 +21,7 @@
     "js2xmlparser": "^4.0.0",
     "mocha": "^6.1.4",
     "morgan": "^1.9.1",
+    "prompt": "^1.0.0",
     "xml2js": "^0.4.19",
     "xmlbuilder": "^13.0.2"
   }

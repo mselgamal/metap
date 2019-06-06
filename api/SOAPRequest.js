@@ -65,7 +65,7 @@ class SOAPRequest {
         return new Promise((resolve,reject)=> {
             let xml2js = require('xml2js').parseString;
             let soapMsg = _this[_formatMessage]();
-            console.log(_this.httpOptions);
+            console.log(soapMsg);
             let request = _this._transport.request(_this.httpOptions,function(response) {
                 let data = '';
                 response.setEncoding('utf8');
@@ -76,7 +76,6 @@ class SOAPRequest {
                 }
                 response.on('data',(d)=> { data += d; });
                 response.on('end',()=> {
-                  console.log(data);
                     xml2js(data,(err,jsonresult)=> {
                         if (err) reject(err);
                         resolve({code:response.statusCode,result:jsonresult});

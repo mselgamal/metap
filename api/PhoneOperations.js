@@ -33,7 +33,7 @@ class RemovePhone extends Phone{
 }
 
 class PhoneOperations {
-  constructor(name=None, returnedTags=None) {
+  constructor(name=null, returnedTags={}) {
     this.name = name;
     this.returnedTags = returnedTags
   }
