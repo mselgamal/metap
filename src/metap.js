@@ -24,7 +24,7 @@ function deviceListMenu(pattern, devices, devDesc) {
 		.ele("Title","Multiple Devices Detected").up()
 		.ele("Prompt", "Select Correct Device").up();
 	let url = "http://"+process.env.SERVER_ADDR+":"+process.env.HTTP_PORT+
-	"/tap/continue/submit?name=#DEVICENAME#"+"&newname=";
+	"/tap/phone/continue?name=#DEVICENAME#"+"&fakename=";
 	devices.forEach((ele)=> {
 		xml.ele("MenuItem")
 			.ele("Name", devDesc[ele]).up()
@@ -44,28 +44,21 @@ function continueTap(fakeName, realName, resultCB) {
 		rejectUnauthorized: false
 	};
 	let phoneOps = new PhoneOperations();
-	phoneOps.name = fakeName;
-	request.body = phoneOps.removePhone();
+	request.body = phoneOps.removePhone(realName);
 	request.createSoapEnvelope("axl","11.5");
 	request.transport = 'https';
-
-
 	request.sendRequest().then((result)=> {
-		console.log("phone deleted",result);
-		return true;
-	}).then((autoRegPhoneDeleted)=> {
-		if (autoRegPhoneDeleted) {
-			let updatePhone = phoneOps.updatePhone(fakeName, );
-			updatePhone.newName(realName);
-			request.body = updatePhone.body;
-			return request.sendRequest();
-		}
-		return null;
+		return parser.parseResult(result);
+	}).then((removePhoneResponse)=> {
+		let updatePhone = phoneOps.updatePhone(fakeName);
+		updatePhone.newName(realName);
+		request.body = updatePhone.body;
+		return request.sendRequest();
+	}).then((phoneUpdatedResponse)=> {
+		return parser.parseResult(phoneUpdatedResponse);
 	}).then((phoneUpdated)=> {
-		if (phoneUpdated) {
-			resultCB(tapRes("Attempting TAP","Phone will reset shortly.. please wait"));
-			console.log("TAPS Complete");
-		}
+		resultCB(tapRes("Attempting TAP","Phone will reset shortly.. please wait"));
+		console.log("Taps complete");
 	}).catch((err)=> {
 		resultCB(tapRes("Error Encountered", err.message));
 	});
@@ -93,7 +86,6 @@ function doPhoneTap(name, pattern, resultCB) {
 		let line = parser.parseResult(result),
 				devices = line["ns:getLineResponse"][0].return[0]
 				.line[0].associatedDevices;
-		console.log(devices);
 		if (!devices || devices.length === 0) {
 			throw new Error("there is no profile associated with this extension");
 		}
@@ -104,7 +96,6 @@ function doPhoneTap(name, pattern, resultCB) {
 		});
 		return filteredDev;
 	}).then(async (devices)=> {
-		console.log(devices);
 		let devDesc = {};
 		if (devices.length === 1) {
 			fakeName = devices[0];
@@ -112,17 +103,14 @@ function doPhoneTap(name, pattern, resultCB) {
 			resultCB(deviceFoundMenu(prompt, fakeName));
 		} else if (devices.length > 1) {
 			let phoneOps = new PhoneOperations();
-			phoneOps.returnedTags = {name:{}, description:{}};
+			let returnedTags = {name:{}, description:{}};
 			for (let i = 0; i < devices.length ;i++) {
-				phoneOps.name = devices[i];
-				request.body = phoneOps.getPhone();
-				console.log(request.body);
+				request.body = phoneOps.getPhone(devices[i], returnedTags);
 				const result = await request.sendRequest();
 				let getPhoneResp = parser.parseResult(result),
 						desc = getPhoneResp["ns:getPhoneResponse"][0].return[0].phone[0]
 						.description[0];
 				devDesc[devices[i]] = desc
-				console.log(devDesc[devices[i]]);
 			}
 			let xml = deviceListMenu(pattern, devices, devDesc);
 			resultCB(xml);
@@ -160,4 +148,5 @@ function tapRes(prompt,text) {
 
 module.exports.tapMenu = tapMenu;
 module.exports.doPhoneTap = doPhoneTap;
+module.exports.continueTap = continueTap;
 module.exports.deviceListMenu = deviceListMenu;

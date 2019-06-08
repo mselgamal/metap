@@ -65,7 +65,6 @@ class SOAPRequest {
         return new Promise((resolve,reject)=> {
             let xml2js = require('xml2js').parseString;
             let soapMsg = _this[_formatMessage]();
-            console.log(soapMsg);
             let request = _this._transport.request(_this.httpOptions,function(response) {
                 let data = '';
                 response.setEncoding('utf8');

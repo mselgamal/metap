@@ -17,8 +17,8 @@ class GetPhone extends Phone{
 }
 
 class UpdatePhone extends Phone{
-  constructor(name, returnedTags) {
-    super(name, "ns:updatePhone", returnedTags);
+  constructor(name) {
+    super(name, "ns:updatePhone", null);
   }
 
   newName(newName) {
@@ -28,26 +28,23 @@ class UpdatePhone extends Phone{
 
 class RemovePhone extends Phone{
   constructor(name) {
-    super(name, "ns:removePhone", None);
+    super(name, "ns:removePhone", null);
   }
 }
 
 class PhoneOperations {
-  constructor(name=null, returnedTags={}) {
-    this.name = name;
-    this.returnedTags = returnedTags
+  constructor() {}
+
+  getPhone(name, returnedTags) {
+      return new GetPhone(name, returnedTags).body;
   }
 
-  getPhone() {
-      return new GetPhone(this.name, this.returnedTags).body;
+  updatePhone(name) {
+      return new UpdatePhone(name);
   }
 
-  updatePhone() {
-      return new UpdatePhone(this.name, this.returnedTags);
-  }
-
-  removePhone() {
-      return new RemovePhone(this.name).body;
+  removePhone(name) {
+      return new RemovePhone(name).body;
   }
 }
 

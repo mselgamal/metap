@@ -11,13 +11,14 @@ function getTapMenu(req,res) {
 function doPhoneTap(req,res) {
   res.type("text/xml");
   tap.doPhoneTap(req.query.name, req.query.pattern, (result)=>{
-    console.log(result);
     res.send(result);
   })
 }
 
 function continueTap(req,res) {
-  res.send("continueTap");
+  tap.continueTap(req.query.fakename, req.query.name, (result)=> {
+    res.send(result);
+  });
 }
 
 exports.getTapMenu = getTapMenu;
