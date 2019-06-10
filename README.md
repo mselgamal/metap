@@ -49,7 +49,7 @@ phones supported:
 
 - go to browser
 - type http://insert_server_addr:enter_server_port/tap/menu?name=#DEVICENAME#
-- XML menu should be display
+- XML menu should display
 
 ## Built With
 
