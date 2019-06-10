@@ -45,7 +45,7 @@ function continueTap(fakeName, realName, resultCB) {
 	};
 	let phoneOps = new PhoneOperations();
 	request.body = phoneOps.removePhone(realName);
-	request.createSoapEnvelope("axl","11.5");
+	request.createSoapEnvelope("axl",process.env.CUCM_VER);
 	request.transport = 'https';
 	request.sendRequest().then((result)=> {
 		return parser.parseResult(result);
