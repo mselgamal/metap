@@ -1,65 +1,57 @@
 # metap 
 
-metaps stands "me" + "tool for auto provisioning". 
+metaps stands "me" + "tool for auto provisioning", Cisco phone service. when configured on auto registered phones. The service allows users
+to enter designated phone directory number and a phone profile is matched to the auto-registered phone. 
 
-## Getting Started - TBD
+metaps accomplishes the following:
+- phone profiles are be uploaded using dummy addresses prior to deployment
+- shared line support
+- eliminates mac address scanning 
+- eliminates physical phone association with end user prior to deployment
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+phones supported:
+- 7900, 7800, 8800
+
+## Getting Started
+
+- clone repo
+- create a .env file, using .env-sample as base
+- install dependencies in package.json file
 
 ### Prerequisites - TBD
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+- install latest version of git
+- install latest version of nodejs
+- CUCM version 11.x
 
 ### Installing - TBD
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+- install nodejs, https://nodejs.org/en/download/
+- install git, https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
 ## Running the tests - TBD
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests - TBD
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+TBD
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+- install prerequisites
+- git clone https://github.com/mselgamal/metap.git
+- install dependencies:
+	- go to repo folder
+	- run "npm install --save"
+- create .env file, copy .env-sample content to .env and change parameters if needed.
+- start server:
+	- npm start
+	- enter axl user creds
+- Create phone service in cucm:
+	- url, http://<insert server addr>:<enter server port>/tap/menu?name=#DEVICENAME#
+- assign phone service to auto registered phone template
+- enable auto registration on cucm
 
 ## Built With
 
 * [NodeJS](http://www.nodejs.com) - The web framework used
-* [Docker](https://docker.com) - Dependency Management
 
 ## Versioning
 
