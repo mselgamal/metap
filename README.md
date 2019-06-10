@@ -1,12 +1,12 @@
-# metap 
+# metap
 
 metaps stands "me" + "tool for auto provisioning", Cisco phone service. when configured on auto registered phones. The service allows users
-to enter designated phone directory number and a phone profile is matched to the auto-registered phone. 
+to enter designated phone directory number and a phone profile is matched to the auto-registered phone.
 
 metaps accomplishes the following:
 - phone profiles are be uploaded using dummy addresses prior to deployment
 - shared line support
-- eliminates mac address scanning 
+- eliminates mac address scanning
 - eliminates physical phone association with end user prior to deployment
 
 phones supported:
@@ -22,7 +22,7 @@ phones supported:
 
 - install latest version of git
 - install latest version of nodejs
-- CUCM version 11.x
+- CUCM version 11.x, 10.x, 9.x
 
 ### Installing
 
@@ -60,11 +60,11 @@ phones supported:
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
-* **Mamdouh Elgamal** 
+* **Mamdouh Elgamal**
 
 ## License
 
