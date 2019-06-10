@@ -29,10 +29,6 @@ phones supported:
 - [install nodejs](https://nodejs.org/en/download/)
 - [install git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-## Running the tests - TBD
-
-TBD
-
 ## Deployment
 
 - install prerequisites
@@ -48,6 +44,12 @@ TBD
 	- url, http://insert_server_addr:enter_server_port/tap/menu?name=#DEVICENAME#
 - assign phone service to auto registered phone template
 - enable auto registration on cucm
+
+## Verify Service is up
+
+- go to browser
+- type http://insert_server_addr:enter_server_port/tap/menu?name=#DEVICENAME#
+- XML menu should be display
 
 ## Built With
 
