@@ -26,8 +26,8 @@ phones supported:
 
 ### Installing
 
-- install nodejs, https://nodejs.org/en/download/
-- install git, https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+- [install nodejs](https://nodejs.org/en/download/)
+- [install git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Running the tests - TBD
 
