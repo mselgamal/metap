@@ -18,13 +18,13 @@ phones supported:
 - create a .env file, using .env-sample as base
 - install dependencies in package.json file
 
-### Prerequisites - TBD
+### Prerequisites
 
 - install latest version of git
 - install latest version of nodejs
 - CUCM version 11.x
 
-### Installing - TBD
+### Installing
 
 - install nodejs, https://nodejs.org/en/download/
 - install git, https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
