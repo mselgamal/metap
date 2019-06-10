@@ -32,11 +32,14 @@ phones supported:
 ## Deployment
 
 - install prerequisites
-- git clone https://github.com/mselgamal/metap.git
+- open cli:
+	- go to root folder where repo would reside
+	- run git clone https://github.com/mselgamal/metap.git
 - install dependencies:
 	- go to repo folder
 	- run "npm install --save"
-- create .env file, copy .env-sample content to .env and change parameters if needed.
+- create .env file:
+	- copy .env-sample content to .env and change parameters if needed.
 - start server:
 	- npm start
 	- enter axl user creds
