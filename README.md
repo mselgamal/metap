@@ -45,7 +45,7 @@ TBD
 	- npm start
 	- enter axl user creds
 - Create phone service in cucm:
-	- url, http://<insert server addr>:<enter server port>/tap/menu?name=#DEVICENAME#
+	- url, http://insert_server_addr:enter_server_port/tap/menu?name=#DEVICENAME#
 - assign phone service to auto registered phone template
 - enable auto registration on cucm
 
