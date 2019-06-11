@@ -6,6 +6,11 @@ let Request = require("../api/SOAPRequest.js"),
 		xmlbuilder = require('xmlbuilder'),
 		fs = require('fs');
 
+/**
+	@param {String} devicename
+	@returns {String} xmlMenu
+	constructs initial tap menu, prompting user for extension
+*/
 function tapMenu(name) {
 	let url = "http://"+process.env.SERVER_ADDR+":"+process.env.HTTP_PORT+
 	"/tap/phone/start?name="+name;
@@ -19,6 +24,14 @@ function tapMenu(name) {
 	return xml.end();
 }
 
+/**
+	@param {String} pattern
+	@param {list} devices
+	@param {map} deviceDescription
+	@returns {String} xmlMenu
+	fucntion creates a menu of device description, this is only called when
+	a phone extension is associated with multiple devices as "line 1"
+*/
 function deviceListMenu(pattern, devices, devDesc) {
 	let xml = xmlbuilder.create('CiscoIPPhoneMenu')
 		.ele("Title","Multiple Devices Detected").up()
@@ -33,6 +46,15 @@ function deviceListMenu(pattern, devices, devDesc) {
 	return xml.end();
 }
 
+/**
+	@param {String} fakeName
+	@param {String} realName
+	@param {function} resultCB
+	@returns {String} xmlMenu
+	fucntion swapes phone profile mac with auto reg phone mac
+	by removing auto reg phone and updating phone profile with mac
+	resultCB is triggered when successful or when error is encountered
+*/
 function continueTap(fakeName, realName, resultCB) {
 	request.httpOptions = {
 		host: process.env.CUCM_HOST, port: process.env.CUCM_PORT,
@@ -64,6 +86,14 @@ function continueTap(fakeName, realName, resultCB) {
 	});
 }
 
+/**
+	@param {String} name
+	@param {String} pattern
+	@param {function} resultCB
+	function does a directory number lookup and identifies
+	associated device(s) resultCB is triggered and devices
+	are returned or error is encountered
+*/
 function doPhoneTap(name, pattern, resultCB) {
 	let fakeName, line, e164Pattern = pattern, lineOps = new LineOperations();
 	request.httpOptions = {
@@ -125,6 +155,12 @@ function doPhoneTap(name, pattern, resultCB) {
 	});
 }
 
+/**
+	@param {String} prompt
+	@param {String} fakeName
+	@return {String} xmlString
+	function returns menu for single matched device
+*/
 function deviceFoundMenu(prompt, fakeName) {
 	let url = "http://"+process.env.SERVER_ADDR+":"+process.env.HTTP_PORT+
 	"/tap/phone/continue?fakename="+fakeName+"&name=#DEVICENAME#";
@@ -138,7 +174,13 @@ function deviceFoundMenu(prompt, fakeName) {
 	return xml.end();
 }
 
-function tapRes(prompt,text) {
+/**
+	@param {String} prompt
+	@param {String} text
+	@return {String} xmlString
+	function returns error message to phone
+*/
+function tapRes(prompt, text) {
 	let xml = xmlbuilder.create('CiscoIPPhoneText')
 		.ele("Title", "metap").up()
 		.ele("Prompt", prompt).up()
