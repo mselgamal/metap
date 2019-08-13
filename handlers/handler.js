@@ -1,9 +1,9 @@
 let tap = require('../src/metap.js');
 
 /**
-  req url -> http://server_addr:port/tap/menu/submit?name=sepdsdsad
   @param {Object} httpRequest
   @param {Object} httpResponse
+  req url -> http://server_addr:port/tap/menu/submit?name=sepdsdsad
 */
 function getTapMenu(req,res) {
   res.type("text/xml");
@@ -18,7 +18,7 @@ function getTapMenu(req,res) {
 */
 function doPhoneTap(req,res) {
   res.type("text/xml");
-  tap.doPhoneTap(req.query.name, req.query.pattern, (result)=>{
+  tap.doPhoneTap(req.query.pattern, (result)=>{
     res.send(result);
   })
 }
