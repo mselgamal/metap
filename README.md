@@ -1,6 +1,6 @@
 # metap
 
-metaps stands "me" + "tool for auto provisioning", Cisco phone service. when configured on auto registered phones. The service allows users
+metap stands "me" + "tool for auto provisioning", Cisco phone service. when configured on auto registered phones. The service allows users
 to enter designated phone directory number and a phone profile is matched to the auto-registered phone.
 
 metaps accomplishes the following:
