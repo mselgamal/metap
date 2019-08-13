@@ -56,18 +56,17 @@ phones supported:
 
 ## Understanding .env variables
 
-HTTP_PORT=8082: 			default server http port, port used by CUCM for http requets
-HTTPS_PORT=443				default server https port, port used by CUCM for https requets
-CUCM_PORT=8443				https port used by metaps to make AXL requests, This is a static field DO NOT CHANGE unless certain it's different
-CUCM_HOST=10.0.0.2			ip address used by metaps to make AXL requests, change to match your CUCM address
-CUCM_VER=11.0				default call manager version, for XX.X version enter XX.0 i.e 11.5 -> 11.0
-NODE_ENV=production			specifies metaps enviroment, default is production
-SERVER_ADDR=10.0.0.1		default metaps address, change to match host server address
-DN_PT=Cluster_DN			default DN partition where internal DNs exist, ONLY SINGLE PARTITION is supported
-AXL_API_PATH=/axl/			default axl api url path, DO NOT CHANGE unless certain its different
-E164_DN=false				change to true if DNs are configured as  \+XXXXXXXXXX, E164 format
-DEV_DESC_ST=0				The description displayed on phone after submitting extension is max 64 chars, but description is originally copied
-							from CUCM, where max is 128 chars. by defaut only 0 -> 64 chars are copied
+#### HTTP_PORT=8082: 			default server http port, port used by CUCM for http requets
+#### HTTPS_PORT=443				default server https port, port used by CUCM for https requets
+#### CUCM_PORT=8443				https port used by metaps to make AXL requests, This is a static field DO NOT CHANGE unless certain it's different
+#### CUCM_HOST=10.0.0.2			ip address used by metaps to make AXL requests, change to match your CUCM address
+#### CUCM_VER=11.0				default call manager version, for XX.X version enter XX.0 i.e 11.5 -> 11.0
+#### NODE_ENV=production		specifies metaps enviroment, default is production
+#### SERVER_ADDR=10.0.0.1		default metaps address, change to match host server address
+#### DN_PT=Cluster_DN			default DN partition where internal DNs exist, ONLY SINGLE PARTITION is supported
+#### AXL_API_PATH=/axl/			default axl api url path, DO NOT CHANGE unless certain its different
+#### E164_DN=false				change to true if DNs are configured as  \+XXXXXXXXXX, E164 format
+#### DEV_DESC_ST=0				The description displayed on phone after submitting extension is max 64 chars, but description is originally 									copied from CUCM, where max is 128 chars. by defaut only 0 -> 64 chars are copied
 
 
 ## Built With
